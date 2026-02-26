@@ -1,74 +1,48 @@
 import java.util.Scanner;
 
-public class UseCase9PalindromeCheckerApp {
 
-    public static void main(String[] args) {
-
-        System.out.println("Palindrome Checker App");
-        System.out.println("-----------------------");
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Input text: ");
-        String input = sc.nextLine();
+class PalindromeChecker {
 
 
-        boolean isPalindrome = checkPalindrome(input, 0, input.length() - 1);
+    public boolean checkPalindrome(String input) {
 
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
-
-        sc.close();
-    }
-
-
-    private static boolean checkPalindrome(String str, int start, int end) {
-
-
-        if (start >= end) {
-            return true;
-        }
-
-
-        if (str.charAt(start) != str.charAt(end)) {
+        if (input == null) {
             return false;
         }
 
-
-        return checkPalindrome(str, start + 1, end - 1);
-    }
-}import java.util.Scanner;
-
-public class UseCase10PalindromeCheckerApp {
-
-    public static void main(String[] args) {
-
-        System.out.println("Palindrome Checker App");
-        System.out.println("-----------------------");
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Input text: ");
-        String input = sc.nextLine();
-
-
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
-
-
-        boolean isPalindrome = true;
         int start = 0;
-        int end = normalized.length() - 1;
+        int end = input.length() - 1;
 
         while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
             }
             start++;
             end--;
         }
 
+        return true;
+    }
+}
 
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+public class UseCase11PalindromeCheckerApp {
+
+    public static void main(String[] args) {
+
+        System.out.println("Palindrome Checker App");
+        System.out.println("-----------------------");
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Input text: ");
+        String input = sc.nextLine();
+
+
+        PalindromeChecker checker = new PalindromeChecker();
+
+        boolean result = checker.checkPalindrome(input);
+
+        System.out.println("Is it a Palindrome? : " + result);
 
         sc.close();
     }
