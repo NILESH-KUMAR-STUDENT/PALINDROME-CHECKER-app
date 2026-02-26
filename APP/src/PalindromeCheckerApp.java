@@ -36,4 +36,40 @@ public class UseCase9PalindromeCheckerApp {
 
         return checkPalindrome(str, start + 1, end - 1);
     }
+}import java.util.Scanner;
+
+public class UseCase10PalindromeCheckerApp {
+
+    public static void main(String[] args) {
+
+        System.out.println("Palindrome Checker App");
+        System.out.println("-----------------------");
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Input text: ");
+        String input = sc.nextLine();
+
+
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+
+        boolean isPalindrome = true;
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
+        }
+
+
+        System.out.println("Is it a Palindrome? : " + isPalindrome);
+
+        sc.close();
+    }
 }
