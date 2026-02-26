@@ -1,21 +1,47 @@
 import java.util.*;
 
+public class UseCase13PalindromeCheckerApp {
 
-interface PalindromeStrategy {
-    boolean checkPalindrome(String input);
-}
+    public static void main(String[] args) {
+
+        System.out.println("Palindrome Checker App");
+        System.out.println("UC13: Performance Comparison");
+        System.out.println("-----------------------------");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input text: ");
+        String input = sc.nextLine();
 
 
-class StackStrategy implements PalindromeStrategy {
+        long startTime = System.nanoTime();
+        boolean stackResult = stackPalindrome(input);
+        long stackTime = System.nanoTime() - startTime;
 
-    @Override
-    public boolean checkPalindrome(String input) {
-        Stack<Character> stack = new Stack<>();
 
+        startTime = System.nanoTime();
+        boolean dequeResult = dequePalindrome(input);
+        long dequeTime = System.nanoTime() - startTime;
+
+
+        startTime = System.nanoTime();
+        boolean recursiveResult = recursivePalindrome(input, 0, input.length() - 1);
+        long recursiveTime = System.nanoTime() - startTime;
+
+
+        System.out.println("\n--- Performance Results (in nanoseconds) ---");
+        System.out.println("Stack Method     : " + stackTime + " ns | Result: " + stackResult);
+        System.out.println("Deque Method     : " + dequeTime + " ns | Result: " + dequeResult);
+        System.out.println("Recursive Method : " + recursiveTime + " ns | Result: " + recursiveResult);
+
+        sc.close();
+    }
+
+
+    private static boolean stackPalindrome(String input) {
+        Stack<Character> stack = new Stacki0 Stack<>();
         for (char ch : input.toCharArray()) {
             stack.push(ch);
         }
-
         for (char ch : input.toCharArray()) {
             if (ch != stack.pop()) {
                 return false;
@@ -23,19 +49,13 @@ class StackStrategy implements PalindromeStrategy {
         }
         return true;
     }
-}
 
 
-class DequeStrategy implements PalindromeStrategy {
-
-    @Override
-    public boolean checkPalindrome(String input) {
+    private static boolean dequePalindrome(String input) {
         Deque<Character> deque = new ArrayDeque<>();
-
         for (char ch : input.toCharArray()) {
             deque.addLast(ch);
         }
-
         while (deque.size() > 1) {
             if (deque.removeFirst() != deque.removeLast()) {
                 return false;
@@ -43,53 +63,15 @@ class DequeStrategy implements PalindromeStrategy {
         }
         return true;
     }
-}
 
 
-class PalindromeService {
-    private PalindromeStrategy strategy;
-
-    public PalindromeService(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean execute(String input) {
-        return strategy.checkPalindrome(input);
-    }
-}
-
-public class UseCase12PalindromeCheckerApp {
-
-    public static void main(String[] args) {
-
-        System.out.println("Palindrome Checker App");
-        System.out.println("-----------------------");
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Input text: ");
-        String input = sc.nextLine();
-
-        System.out.println("Choose Strategy:");
-        System.out.println("1. Stack Strategy");
-        System.out.println("2. Deque Strategy");
-        System.out.print("Enter choice: ");
-        int choice = sc.nextInt();
-
-        PalindromeStrategy strategy;
-
-
-        if (choice == 1) {
-            strategy = new StackStrategy();
-        } else {
-            strategy = new DequeStrategy();
+    private static boolean recursivePalindrome(String str, int start, int end) {
+        if (start >= end) {
+            return true;
         }
-
-        PalindromeService service = new PalindromeService(strategy);
-        boolean result = service.execute(input);
-
-        System.out.println("Is it a Palindrome? : " + result);
-
-        sc.close();
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+        return recursivePalindrome(str, start + 1, end - 1);
     }
 }
